@@ -2,9 +2,9 @@ package main
 
 import "net/http"
 
-func setupRoutes() http.Handler {
+func setupRoutes(g *group) http.Handler {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/watch", serveFile)
+	mux.Handle("/ws", g)
 
 	return mux
 }
