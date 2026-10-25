@@ -30,15 +30,17 @@ func newGroup() *group {
 }
 
 func (g *group) run() {
-	select {
-	case client := <-g.join:
-		g.clients[client] = true
-	case client := <-g.leave:
-		delete(g.clients, client)
-		close(client.receive)
-	case msg := <-g.forward:
-		for client := range g.clients {
-			client.receive <- msg
+	for {
+		select {
+		case client := <-g.join:
+			g.clients[client] = true
+		case client := <-g.leave:
+			delete(g.clients, client)
+			close(client.receive)
+		case msg := <-g.forward:
+			for client := range g.clients {
+				client.receive <- msg
+			}
 		}
 	}
 }
