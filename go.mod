@@ -1,4 +1,4 @@
-module github.com/kyzercmd/relay
+module github.com/kyzercmd/ws
 
 go 1.27.2
 
